@@ -94,6 +94,7 @@ import signal
 from robot.libraries import Pabotlib as pabotlib
 from .result_merger import merge
 
+
 try:
     import queue
 except ImportError:

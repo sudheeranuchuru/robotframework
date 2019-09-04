@@ -24,3 +24,4 @@ report.html
 .code/
 venv/*
 examples/
+.pabotsuitenames

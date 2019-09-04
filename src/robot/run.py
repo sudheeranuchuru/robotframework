@@ -44,7 +44,6 @@ from robot.reporting import ResultWriter
 from robot.running import TestSuiteBuilder
 from robot.utils import Application, unic, text
 
-
 USAGE = """Robot Framework -- A generic automation framework
 
 Version:  <VERSION>
@@ -108,6 +107,7 @@ Options
  -M --metadata name:value *  Set metadata of the top level suite. Value can
                           contain formatting similarly as --doc.
                           Example: --metadata version:1.2
+ --testlevelsplit         For parallel execution of test cases
  -G --settag tag *        Sets given tag(s) to all executed test cases.
  -t --test name *         Select test cases to run by name or long name. Name
                           is case and space insensitive and it can also be a
@@ -483,7 +483,13 @@ def run_cli(arguments=None, exit=True):
     """
     if arguments is None:
         arguments = sys.argv[1:]
-    return RobotFramework().execute_cli(arguments, exit=exit)
+    # For parallel execution call pabot main function
+    if '--testlevelsplit' in arguments:
+        from . import pabot
+        return pabot.main(arguments)
+    # Default behaviour
+    else:
+        return RobotFramework().execute_cli(arguments, exit=exit)
 
 
 def run(*tests, **options):
